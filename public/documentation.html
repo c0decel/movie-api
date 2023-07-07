@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital@1&display=swap" rel="stylesheet">
+    <title>documentation</title>
+</head>
+<html>
+    <body>
+        <h1>documentation for movie list</h1>
+        <p>api documentation</p>
+
+        <table class="content">
+            <thead>
+              <tr>
+                <th>biz logic</th>
+                <th>URL</th>
+                <th>method</th>
+                <th>query parameters</th>
+                <th>response</th>
+              </tr>
+            </thead>
+      
+            <tbody>
+              <tr>
+                <td>allows a user to be created</td>
+                <td>/users</td>
+                <td>POST</td>
+                <td>none</td>
+                <td>JSON of new user. includes id, username, firstname, lastname, and favorite movies</td>
+              </tr>
+
+              <tr>
+                <td>allows a movie to be created</td>
+                <td>/movies</td>
+                <td>POST</td>
+                <td>none</td>
+                <td>JSON of new movie. includes id, name, description, genre, and director</td>
+              </tr>
+
+              <tr>
+                <td>allows a director to be created</td>
+                <td>/directors</td>
+                <td>POST</td>
+                <td>none</td>
+                <td>JSON of new director. includes id, name, bio, and birthyear</td>
+              </tr>
+      
+              <tr>
+                <td>allows a genre to be created</td>
+                <td>/genres</td>
+                <td>POST</td>
+                <td>none</td>
+                <td>JSON of new genre. includes id, name, and description</td>
+              </tr>
+      
+              <tr>
+                <td>allows a user to be deleted</td>
+                <td>/users/:Username</td>
+                <td>DELETE</td>
+                <td>:Username</td>
+                <td>confirms user deletion</td>
+              </tr>
+
+              <tr>
+                <td>allows a user to be updated</td>
+                <td>/users/:Username</td>
+                <td>PUT</td>
+                <td>:Username</td>
+                <td>confirms user information update</td>
+              </tr>
+
+              <tr>
+                <td>add movie to favorites</td>
+                <td>/users/:Username/movies/:MovieID</td>
+                <td>PUT</td>
+                <td>:Username/movies/:MovieID</td>
+                <td>adds movie to favorites</td>
+              </tr>
+      
+              <tr>
+                <td>returns a list of all movies</td>
+                <td>/movies</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>JSON object of all the movies</td>
+              </tr>
+      
+              <tr>
+                <td>returns movie name</td>
+                <td>/movies/:id</td>
+                <td>GET</td>
+                <td>:id</td>
+                <td>JSON object the movie</td>
+              </tr>
+
+              <tr>
+                <td>returns a list of all directors</td>
+                <td>/directors</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>JSON object of all the directors</td>
+              </tr>
+      
+              <tr>
+                <td>returns director name</td>
+                <td>/directors/:id</td>
+                <td>GET</td>
+                <td>:id</td>
+                <td>JSON object the director</td>
+              </tr>
+
+              <tr>
+                <td>returns a list of all genres</td>
+                <td>/genres</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>JSON object of all the genres</td>
+              </tr>
+      
+              <tr>
+                <td>returns genre name</td>
+                <td>/genres/:id</td>
+                <td>GET</td>
+                <td>:id</td>
+                <td>JSON object the genre</td>
+              </tr>
+
+              <tr>
+                <td>returns a list of all users</td>
+                <td>/users</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>JSON object of all the users</td>
+              </tr>
+      
+              <tr>
+                <td>returns user name</td>
+                <td>/users/:id</td>
+                <td>GET</td>
+                <td>:id</td>
+                <td>JSON object the user</td>
+              </tr>
+            </tbody>
+          </table>
+    </body>
+</html>
