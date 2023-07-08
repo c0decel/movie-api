@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express'),
  bodyParser = require('body-parser'),
  uuid = require('uuid');
@@ -13,13 +15,20 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
-mongoose.connect('process.env.CONNECTION_URI', { 
-  useNewUrlParser: true, useUnifiedTopology: true
-});
+// replace the hardcoded connection string with the environment variable
+const mongoURI = process.env.CONNECTION_URI;
+
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('connected to mongodb');
+  })
+  .catch((err) => {
+    console.error('failed to connect :(', err);
+  });
 
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+  console.log('Listening on Port ' + port);
 });
 
 app.use(morgan("common"));
@@ -28,7 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://movie-api-213-4cf3fb7e752c.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
