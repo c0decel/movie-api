@@ -80,7 +80,7 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 //adds movie
-app.post('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/movies', (req, res) => {
   Movies.findOne({ Title: req.body.Title })
   .then((movie) => {
     if (movie) {
