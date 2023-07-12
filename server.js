@@ -291,7 +291,7 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) 
       res.status(500).send('Error: ' + err);
     });
 });
-
+//get genre by ID
 app.get('/genres/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Genre: req.params.Name })
     .then((user) => {
@@ -302,7 +302,7 @@ app.get('/genres/:id', passport.authenticate('jwt', { session: false }), (req, r
       res.status(500).send('Error: ' + err);
     });
 });
-//get genre by ID
+//post genre
 app.post('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Name: req.body.Name })
   .then((genre) => {
@@ -353,7 +353,7 @@ app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req
 
 //add new director
 app.post('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Name: req.body.Name })
+  Directors.findOne({ Director: req.body.Name })
   .then((user) => {
     if (user) {
       return res.status(400).send(req.body.Username + 'already exists');
