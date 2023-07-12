@@ -341,7 +341,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), (req, re
 
 //get directors by ID
 app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
+  Directors.findOne({ Director: req.params.Name })
     .then((user) => {
       res.json(user);
     })
@@ -353,7 +353,7 @@ app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req
 
 //add new director
 app.post('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Director: req.body.Name })
+  Directors.findOne({ Name: req.body.Name })
   .then((user) => {
     if (user) {
       return res.status(400).send(req.body.Username + 'already exists');
