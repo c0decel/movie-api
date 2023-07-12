@@ -340,7 +340,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 //get directors by ID
-app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Directors.findOne({ Name: req.params.Name })
     .then((user) => {
       res.json(user);
