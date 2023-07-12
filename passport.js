@@ -28,7 +28,7 @@ let Users = Models.User,
             }
             
             console.log('finished');
-            return done(null, user);
+            return done(user);
         } catch (error) {
             console.log(error);
             return done(error);
