@@ -255,6 +255,29 @@ app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { sessi
   }
 });
 
+//delete fav movie
+app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const updatedUser = await Users.findOneAndDelete(
+      { username: req.params.Username },
+      {
+        $addToSet: { FavoriteMovies: req.params.MovieID }
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send("Error: User doesn't exist");
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error: ' + error);
+  }
+});
+
+
   
 
 //get genres
