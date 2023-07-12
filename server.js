@@ -26,10 +26,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error('failed to connect :(', err);
   });
 
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
-  console.log('Listening on Port ' + port);
-});
+  const port = process.env.PORT || 8080;
+  app.listen(port, '0.0.0.0',() => {
+    console.log('Listening on Port ' + port);
+  });
 
 app.use(morgan("common"));
 
@@ -153,7 +153,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', passport.authenticate('jwt', { session: false }), [
+app.post('/users', [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
