@@ -234,7 +234,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 //add favorite movie
-app.post('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
       { username: req.params.Username },
