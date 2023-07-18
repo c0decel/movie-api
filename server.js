@@ -29,7 +29,8 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   const port = process.env.PORT || 8080;
   app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port ' + port);
-  });
+ });
+
 
 app.use(morgan("common"));
 
@@ -56,8 +57,14 @@ let auth = require('./auth.js')(app);
 const passport = require('passport');
 require('./passport.js');
 
+
+app.get('/', (req, res) => {
+  res.send('welcome to my movie API');
+});
+
+
 // get movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Movies.find()
 		.then((movies) => {
 			res.status(201).json(movies);
@@ -68,9 +75,12 @@ app.get('/movies', (req, res) => {
 		});
 });
 
-app.get('/movies/:Title', (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movies) => {
+      if (!movies) {
+        return res.status(404).send("movie doesn't exist");
+      }
       res.json(movies);
     })
     .catch((err) => {
@@ -80,11 +90,11 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 //adds movie
-app.post('/movies', (req, res) => {
+app.post('/movies',  passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.body.Title })
   .then((movie) => {
     if (movie) {
-      return res.status(400).send(req.body.Title + 'already exists');
+      return res.status(400).send(req.body.Title + " already exists");
     } else {
       Movies
         .create({
@@ -144,6 +154,9 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
+      if (!user) {
+        return res.status(404).send("user doesn't exist");
+      }
       res.json(user);
     })
     .catch((err) => {
@@ -153,7 +166,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', [
+app.post('/users', passport.authenticate('jwt', { session: false }), [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
@@ -292,10 +305,13 @@ app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) 
     });
 });
 //get genre by ID
-app.get('/genres/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.findOne({ Genre: req.params.Name })
-    .then((user) => {
-      res.json(user);
+app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Genres.findOne({ Name: req.params.Name })
+    .then((genre) => {
+      if (!genre) {
+        return res.status(404).send("genre doesn't exist");
+      }
+      res.json(genre);
     })
     .catch((err) => {
       console.error(err);
@@ -305,16 +321,16 @@ app.get('/genres/:id', passport.authenticate('jwt', { session: false }), (req, r
 //post genre
 app.post('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
   Genres.findOne({ Name: req.body.Name })
-  .then((genre) => {
-    if (genre) {
-      return res.status(400).send(req.body.Name + 'already exists');
+  .then((genres) => {
+    if (genres) {
+      return res.status(400).send(req.body.Name + " already exists");
     } else {
       Genres
         .create({
           Name: req.body.Name,
           Description: req.body.Description
         })
-        .then((user) =>{res.status(201).json(user) })
+        .then((genres) =>{res.status(201).json(genres) })
       .catch((error) => {
         console.error(error);
         res.status(500).send('Error: ' + error);
@@ -340,10 +356,13 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 //get directors by ID
-app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Director: req.params.Name })
-    .then((user) => {
-      res.json(user);
+app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Directors.findOne({ Name: req.params.Name })
+    .then((directors) => {
+      if (!directors) {
+        return res.status(404).send("director doesn't exist");
+      }
+      res.json(directors);
     })
     .catch((err) => {
       console.error(err);
@@ -354,17 +373,17 @@ app.get('/directors/:id', passport.authenticate('jwt', { session: false }), (req
 //add new director
 app.post('/directors', passport.authenticate('jwt', { session: false }), (req, res) => {
   Directors.findOne({ Name: req.body.Name })
-  .then((user) => {
-    if (user) {
-      return res.status(400).send(req.body.Username + 'already exists');
+  .then((directors) => {
+    if (directors) {
+      return res.status(400).send(req.body.Name + " already exists");
     } else {
-      Users
+      Directors
         .create({
           Name: req.body.Name,
           Bio: req.body.Bio,
           Birth: req.body.Birth
         })
-        .then((user) =>{res.status(201).json(user) })
+        .then((directors) =>{res.status(201).json(directors) })
       .catch((error) => {
         console.error(error);
         res.status(500).send('Error: ' + error);
