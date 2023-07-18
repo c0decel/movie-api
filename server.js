@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://movie-apis-84b92f93a404.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io'];
 
 app.use(cors({
   origin: (origin, callback) => {
