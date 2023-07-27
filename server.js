@@ -31,6 +31,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('Listening on Port ' + port);
  });
 
+//app.listen(8080, () => {
+  //console.log('Your app is listening on port 8080.');
+//});
+
 
 app.use(morgan("common"));
 
@@ -166,7 +170,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', passport.authenticate, [
+app.post('/users', passport.authenticate('jwt', { session: false }), [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
