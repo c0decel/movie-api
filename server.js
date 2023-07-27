@@ -170,7 +170,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', passport.authenticate('jwt', { session: false }), [
+app.post('/users', [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
