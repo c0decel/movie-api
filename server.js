@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv', 'https://8jlvsv.csb.app', 'http://localhost:1234'];
+let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -166,7 +166,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', passport.authenticate('jwt', { session: false }), [
+app.post('/users', passport.authenticate, [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
