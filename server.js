@@ -235,7 +235,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 
 //delete user by name
-app.delete('/users/:Username', (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -251,7 +251,7 @@ app.delete('/users/:Username', (req, res) => {
 });
 
 //add favorite movie
-app.put('/users/:username/movies/:MovieID', async (req, res) => {
+app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
       { username: req.params.Username },
