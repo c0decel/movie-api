@@ -235,7 +235,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 
 //delete user by name
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.delete('/users/:Username', (req, res) => {
   Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
