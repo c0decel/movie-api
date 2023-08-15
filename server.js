@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv', 'http://localhost:1234', 'https://8jlvsv.csb.app'];
+let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv', 'http://localhost:1234', 'https://movies-api-client.netlify.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
