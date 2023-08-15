@@ -8,7 +8,7 @@ require('./passport'); //local passport.js file
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
         subject: user.Username, //username to be encoded in jwt
-        expiresIn: '21d', //specifies expiry date
+        expiresIn: '1d', //specifies expiry date
         algorithm: 'HS256' //algo used to sign/encode values of jwt
     });
 }

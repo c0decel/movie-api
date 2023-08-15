@@ -31,6 +31,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('Listening on Port ' + port);
  });
 
+//app.listen(8080, () => {
+  //console.log('Your app is listening on port 8080.');
+//});
+
 
 app.use(morgan("common"));
 
@@ -38,7 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv', 'http://localhost:1234', 'https://8jlvsv.csb.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -64,7 +68,7 @@ app.get('/', (req, res) => {
 
 
 // get movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', (req, res) => {
 	Movies.find()
 		.then((movies) => {
 			res.status(201).json(movies);
@@ -166,7 +170,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //make new user
-app.post('/users', passport.authenticate('jwt', { session: false }), [
+app.post('/users', [
   check('Username', 'add a username').isLength({min: 5}),
   check('Username', 'non alphanumeric characters not allowed, go hack someone else').isAlphanumeric(),
   check('Pass', 'add a password').not().isEmpty(),
@@ -247,10 +251,10 @@ app.delete('/users/:Username', (req, res) => {
 });
 
 //add favorite movie
-app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.Username },
+      { Username: req.params.Username },
       {
         $addToSet: { FavoriteMovies: req.params.MovieID }
       },
@@ -269,12 +273,12 @@ app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 //delete fav movie
-app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const updatedUser = await Users.findOneAndDelete(
-      { username: req.params.Username },
+    const updatedUser = await Users.findOneAndUpdate(
+      { Username: req.params.Username },
       {
-        $addToSet: { FavoriteMovies: req.params.MovieID }
+        $pull: { FavoriteMovies: req.params.MovieID }
       },
       { new: true }
     );
