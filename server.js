@@ -16,7 +16,8 @@ const Genres = Models.Genre;
 const Directors = Models.Director;
 
 // replace the hardcoded connection string with the environment variable
-const mongoURI = process.env.CONNECTION_URI;
+//const mongoURI = process.env.CONNECTION_URI;
+const mongoURI = 'mongodb+srv://chadmin:EMoR8WNd7xBfe27O@cfdb.cg8wiwk.mongodb.net/cfDB';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -26,14 +27,14 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error('failed to connect :(', err);
   });
 
-  const port = process.env.PORT || 8080;
-  app.listen(port, '0.0.0.0',() => {
-    console.log('Listening on Port ' + port);
- });
+  //const port = process.env.PORT || 8080;
+  //app.listen(port, '0.0.0.0',() => {
+    //console.log('Listening on Port ' + port);
+ //});
 
-//app.listen(8080, () => {
-  //console.log('Your app is listening on port 8080.');
-//});
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
+});
 
 
 app.use(morgan("common"));
@@ -42,7 +43,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://movie-apis-84b92f93a404.herokuapp.com', 'http://localhost:1234', 'https://final--movies-api-client.netlify.app', 'https://movies-api-client.netlify.app'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -235,7 +236,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 
 //delete user by name
-app.delete('/users/:Username', (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -251,10 +252,10 @@ app.delete('/users/:Username', (req, res) => {
 });
 
 //add favorite movie
-app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
+      { username: req.params.username },
       {
         $addToSet: { FavoriteMovies: req.params.MovieID }
       },
@@ -273,12 +274,12 @@ app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 //delete fav movie
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
+    const updatedUser = await Users.findOneAndDelete(
+      { username: req.params.Username },
       {
-        $pull: { FavoriteMovies: req.params.MovieID }
+        $addToSet: { FavoriteMovies: req.params.MovieID }
       },
       { new: true }
     );
