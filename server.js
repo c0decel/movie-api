@@ -31,9 +31,9 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('Listening on Port ' + port);
  });
 
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
-});
+//app.listen(8080, () => {
+ // console.log('Your app is listening on port 8080.');
+//});
 
 
 app.use(morgan("common"));
