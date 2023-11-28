@@ -16,8 +16,7 @@ const Genres = Models.Genre;
 const Directors = Models.Director;
 
 // replace the hardcoded connection string with the environment variable
-//const mongoURI = process.env.CONNECTION_URI;
-const mongoURI = 'mongodb+srv://chadmin:EMoR8WNd7xBfe27O@cfdb.cg8wiwk.mongodb.net/cfDB';
+const mongoURI = process.env.CONNECTION_URI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -27,10 +26,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error('failed to connect :(', err);
   });
 
-  //const port = process.env.PORT || 8080;
-  //app.listen(port, '0.0.0.0',() => {
-    //console.log('Listening on Port ' + port);
- //});
+  const port = process.env.PORT || 8080;
+  app.listen(port, '0.0.0.0',() => {
+    console.log('Listening on Port ' + port);
+ });
 
 app.listen(8080, () => {
   console.log('Your app is listening on port 8080.');
