@@ -254,7 +254,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
-      { username: req.params.Username },
+      { Username: req.params.Username },
       {
         $addToSet: { FavoriteMovies: req.params.MovieID }
       },
@@ -273,10 +273,10 @@ app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 //delete fav movie
-app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndDelete(
-      { username: req.params.Username },
+      { Username: req.params.Username },
       {
         $addToSet: { FavoriteMovies: req.params.MovieID }
       },
