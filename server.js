@@ -36,13 +36,13 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //});
 
 
-app.use(morgan("common"));
+app.use(morgan('common'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'https://movie-apis-84b92f93a404.herokuapp.com', 'https://codesandbox.io/s/thirsty-http-8jlvsv'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'http://localhost:1234', 'https://movie-apis-84b92f93a404.herokuapp.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -159,7 +159,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
-        return res.status(404).send("user doesn't exist");
+        return res.status(404).send('User does not exist');
       }
       res.json(user);
     })
@@ -251,10 +251,10 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 //add favorite movie
-app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
+      { username: req.params.username },
       {
         $addToSet: { FavoriteMovies: req.params.MovieID }
       },
@@ -273,12 +273,12 @@ app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 //delete fav movie
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
-    const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
+    const updatedUser = await Users.findOneAndDelete(
+      { username: req.params.Username },
       {
-        $pull: { FavoriteMovies: req.params.MovieID }
+        $addToSet: { FavoriteMovies: req.params.MovieID }
       },
       { new: true }
     );
@@ -293,7 +293,6 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
     res.status(500).send('Error: ' + error);
   }
 });
-
 
 
   
