@@ -251,7 +251,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 //add favorite movie
-app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -273,7 +273,7 @@ app.put('/users/:username/movies/:MovieID', passport.authenticate('jwt', { sessi
 });
 
 //delete fav movie
-app.delete('/users/:username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const updatedUser = await Users.findOneAndDelete(
       { username: req.params.Username },
@@ -359,7 +359,7 @@ app.get('/directors', passport.authenticate('jwt', { session: false }), (req, re
 		});
 });
 
-//get directors by ID
+//get single director
 app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
   Directors.findOne({ Name: req.params.Name })
     .then((directors) => {
